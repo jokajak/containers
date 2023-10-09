@@ -34,8 +34,8 @@ def parse_dockerfile(dockerfile_path):
     if bw_cli_custom_version:
         bw_cli_version = bw_cli_custom_version
 
-    # Concatenate the versions with '+' sign in the desired order
-    version_string = f"{tf_runner_version}+{terraform_version}+{bw_cli_version}"
+    # Concatenate the versions with '_' sign in the desired order
+    version_string = f"{tf_runner_version}_{terraform_version}_{bw_cli_version}"
 
     return version_string
 
