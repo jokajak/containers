@@ -26,7 +26,9 @@ def parse_dockerfile(dockerfile_path):
     terraform_version = terraform_match.group(1) if terraform_match else ""
     tf_runner_version = tf_runner_match.group(1) if tf_runner_match else ""
     bw_cli_version = bw_cli_match.group(1) if bw_cli_match else ""
-    bw_cli_custom_version = bw_cli_version_match.group(1) if bw_cli_version_match else ""
+    bw_cli_custom_version = (
+        bw_cli_version_match.group(1) if bw_cli_version_match else ""
+    )
 
     # Use BW_CLI_VERSION if available, else use the parsed version
     if bw_cli_custom_version:
@@ -41,7 +43,7 @@ def parse_dockerfile(dockerfile_path):
 def get_latest(channel_name):
     # channel_name is ignored
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    dockerfile_path = os.path.join(script_dir, 'Dockerfile')
+    dockerfile_path = os.path.join(script_dir, "..", "Dockerfile")
     return parse_dockerfile(dockerfile_path)
 
 
