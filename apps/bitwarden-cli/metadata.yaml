@@ -1,0 +1,11 @@
+---
+app: bitwarden-cli
+base: false
+semantic_versioning: true
+channels:
+  - name: stable
+    platforms: ["linux/amd64", "linux/arm64"]
+    stable: true
+    tests:
+      enabled: false  # disabled because requires k8s env vars
+      type: cli
