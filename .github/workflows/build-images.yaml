@@ -25,13 +25,13 @@ on:
         default: true
         type: boolean
         description: "Rebuild images regardless of whether version has changed"
-    secrets:
-      BOT_APP_ID:
-        description: "The ID of the GitHub App"
-        required: true
-      BOT_APP_PRIVATE_KEY:
-        description: "The private key of the GitHub App"
-        required: true
+    # secrets:
+    #   BOT_APP_ID:
+    #     description: "The ID of the GitHub App"
+    #     required: true
+    #   BOT_APP_PRIVATE_KEY:
+    #     description: "The private key of the GitHub App"
+    #     required: true
 
 jobs:
   prepare:
@@ -53,17 +53,17 @@ jobs:
         run: |
           pip install -r ./.github/scripts/requirements.txt && pip freeze
 
-      - name: Generate Token
-        uses: tibdex/github-app-token@v2
-        id: generate-token
-        with:
-          app_id: "${{ secrets.BOT_APP_ID }}"
-          private_key: "${{ secrets.BOT_APP_PRIVATE_KEY }}"
+      # - name: Generate Token
+      #   uses: tibdex/github-app-token@v2
+      #   id: generate-token
+      #   with:
+      #     app_id: "${{ secrets.BOT_APP_ID }}"
+      #     private_key: "${{ secrets.BOT_APP_PRIVATE_KEY }}"
 
       - name: Prepare Matrices
         id: prepare-matrices
         env:
-          TOKEN: ${{ steps.generate-token.outputs.token }}
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           if [[ -z "${{ inputs.appsToBuild }}" ]]; then
               matrices=$(python ./.github/scripts/prepare-matrices.py "all" "${{ inputs.pushImages }}" "${{ inputs.force }}")
