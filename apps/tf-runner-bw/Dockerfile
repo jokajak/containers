@@ -12,4 +12,4 @@ RUN apk add --no-cache npm && npm i -g @bitwarden/cli@${BW_CLI_VERSION}
 
 COPY --from=terraform --chown=65532:65532 /bin/terraform /usr/local/bin/terraform
 
-USER 65532:65532``
+USER 65532:65532
