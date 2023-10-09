@@ -66,6 +66,7 @@ Each Image will be built with a `rolling` tag, along with tags specific to it's 
 
 Container | Channel | Image | Latest Tags
 --- | --- | --- | ---
+[tf-runner-bw]() | stable | ghcr.io/jokajak/tf-runner-bw |
 
 
 ## Contributing
