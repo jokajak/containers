@@ -21,11 +21,17 @@ def parse_dockerfile(dockerfile_path):
     return version_string
 
 
+def get_latest():
+    return parse_dockerfile("../Dockerfile")
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="Parse Dockerfile for version numbers and join them with a + sign."
     )
-    parser.add_argument("dockerfile_path", help="Path to the Dockerfile")
+    parser.add_argument(
+        "dockerfile_path", help="Path to the Dockerfile", default="../Dockerfile"
+    )
 
     args = parser.parse_args()
     dockerfile_path = args.dockerfile_path
