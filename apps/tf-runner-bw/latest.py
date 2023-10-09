@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import os
 import re
 import argparse
 
@@ -32,7 +33,9 @@ def parse_dockerfile(dockerfile_path):
 
 def get_latest(channel_name):
     # channel_name is ignored
-    return parse_dockerfile("../Dockerfile")
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    dockerfile_path = os.path.join(script_dir, 'Dockerfile')
+    return parse_dockerfile(dockerfile_path)
 
 
 def main():
