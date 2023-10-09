@@ -21,7 +21,8 @@ def parse_dockerfile(dockerfile_path):
     return version_string
 
 
-def get_latest():
+def get_latest(channel_name):
+    # channel_name is ignored
     return parse_dockerfile("../Dockerfile")
 
 
