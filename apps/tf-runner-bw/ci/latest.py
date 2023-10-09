@@ -9,14 +9,23 @@ def parse_dockerfile(dockerfile_path):
     with open(dockerfile_path, "r") as file:
         dockerfile = file.read()
 
-    # Regular expression pattern to match version numbers
-    pattern = r"([\w.-]+:\d+\.\d+\.\d+)"
+    # Regular expression patterns to match version numbers
+    terraform_pattern = r"hashicorp/terraform:(\d+\.\d+\.\d+)"
+    tf_runner_pattern = r"ghcr.io/weaveworks/tf-runner:(\S+)"
+    bw_cli_pattern = r"@bitwarden/cli@(\S+)"
 
-    # Find all matches in the Dockerfile
-    matches = re.findall(pattern, dockerfile)
+    # Find the matches for each software
+    terraform_match = re.search(terraform_pattern, dockerfile)
+    tf_runner_match = re.search(tf_runner_pattern, dockerfile)
+    bw_cli_match = re.search(bw_cli_pattern, dockerfile)
 
-    # Join the matches with '+' sign
-    version_string = "+".join(matches)
+    # Extract the versions in the desired order
+    terraform_version = terraform_match.group(1) if terraform_match else ""
+    tf_runner_version = tf_runner_match.group(1) if tf_runner_match else ""
+    bw_cli_version = bw_cli_match.group(1) if bw_cli_match else ""
+
+    # Concatenate the versions with '+' sign in the desired order
+    version_string = f"{tf_runner_version}+{terraform_version}+{bw_cli_version}"
 
     return version_string
 
