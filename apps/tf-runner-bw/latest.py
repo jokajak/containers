@@ -14,16 +14,23 @@ def parse_dockerfile(dockerfile_path):
     terraform_pattern = r"hashicorp/terraform:(\d+\.\d+\.\d+)"
     tf_runner_pattern = r"ghcr.io/weaveworks/tf-runner:(\S+)"
     bw_cli_pattern = r"@bitwarden/cli@(\S+)"
+    bw_cli_version_pattern = r"ARG BW_CLI_VERSION=(\S+)"
 
     # Find the matches for each software
     terraform_match = re.search(terraform_pattern, dockerfile)
     tf_runner_match = re.search(tf_runner_pattern, dockerfile)
     bw_cli_match = re.search(bw_cli_pattern, dockerfile)
+    bw_cli_version_match = re.search(bw_cli_version_pattern, dockerfile)
 
     # Extract the versions in the desired order
     terraform_version = terraform_match.group(1) if terraform_match else ""
     tf_runner_version = tf_runner_match.group(1) if tf_runner_match else ""
     bw_cli_version = bw_cli_match.group(1) if bw_cli_match else ""
+    bw_cli_custom_version = bw_cli_version_match.group(1) if bw_cli_version_match else ""
+
+    # Use BW_CLI_VERSION if available, else use the parsed version
+    if bw_cli_custom_version:
+        bw_cli_version = bw_cli_custom_version
 
     # Concatenate the versions with '+' sign in the desired order
     version_string = f"{tf_runner_version}+{terraform_version}+{bw_cli_version}"
@@ -43,13 +50,16 @@ def main():
         description="Parse Dockerfile for version numbers and join them with a + sign."
     )
     parser.add_argument(
-        "dockerfile_path", help="Path to the Dockerfile", default="../Dockerfile"
+        "--dockerfile", help="Path to the Dockerfile", default="Dockerfile"
     )
 
     args = parser.parse_args()
-    dockerfile_path = args.dockerfile_path
+    dockerfile = args.dockerfile
 
-    version_string = parse_dockerfile(dockerfile_path)
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    dockerfile = os.path.join(script_dir, dockerfile)
+
+    version_string = parse_dockerfile(dockerfile)
     print(version_string)
 
 
