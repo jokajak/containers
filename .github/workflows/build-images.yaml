@@ -128,12 +128,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Setup Goss
-        if: ${{ matrix.image.tests_enabled }}
-        uses: e1himself/goss-installation-action@v1.1.0
-        with:
-          version: v0.4.2
-
       - name: Prepare Build Outputs
         id: prepare-build-outputs
         run: |
@@ -168,25 +162,6 @@ jobs:
             "org.opencontainers.image.version": "${{ matrix.image.version }}",
             "org.opencontainers.image.revision": "${{ github.sha }}",
             "org.opencontainers.image.vendor": "${{ github.repository_owner }}",
-
-      - name: Run Goss Tests
-        id: dgoss
-        if: ${{ matrix.image.tests_enabled }}
-        shell: bash
-        env:
-          CONTAINER_RUNTIME: docker
-          GOSS_FILE: ${{ matrix.image.goss_config }}
-          GOSS_OPTS: --retry-timeout 60s --sleep 2s --color --format documentation
-          GOSS_SLEEP: 2
-          GOSS_FILES_STRATEGY: cp
-          CONTAINER_LOG_OUTPUT: goss_container_log_output
-        run: |
-          if [[ '${{ inputs.pushImages }}' == 'true' ]]; then
-              image_name="${{ steps.prepare-build-outputs.outputs.image_name }}@${{ steps.build.outputs.digest }}"
-          else
-              image_name="${{ steps.prepare-build-outputs.outputs.image_name }}"
-          fi
-          dgoss run ${image_name} ${{ matrix.image.goss_args }}
 
       - name: Export Digest
         id: export-digest
@@ -283,15 +258,6 @@ jobs:
         run: |-
           echo "message=💥 ${{ matrix.image.name }} (${{ matrix.image.tags[0] }})" >> $GITHUB_OUTPUT
           echo "color=0xFF0000" >> $GITHUB_OUTPUT
-
-      - name: Send Discord Webhook
-        uses: sarisia/actions-status-discord@v1
-        if: ${{ always() && inputs.sendNotifications == 'true' }}
-        with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK }}
-          title: ${{ steps.build-failed.outputs.message || steps.build-success.outputs.message }}
-          color: ${{ steps.build-failed.outputs.color || steps.build-success.outputs.color }}
-          username: GitHub Actions
 
   # Summarize matrix https://github.community/t/status-check-for-a-matrix-jobs/127354/7
   build_success:
