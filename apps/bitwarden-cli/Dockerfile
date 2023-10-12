@@ -4,7 +4,7 @@ FROM debian:sid
 ARG BW_CLI_VERSION=2023.9.0
 
 RUN apt update && \
-  apt install -y wget unzip && \
+  apt install -y wget unzip curl jq && \
   wget https://github.com/bitwarden/clients/releases/download/cli-v${BW_CLI_VERSION}/bw-linux-${BW_CLI_VERSION}.zip && \
   unzip bw-linux-${BW_CLI_VERSION}.zip && \
   chmod +x bw && \
