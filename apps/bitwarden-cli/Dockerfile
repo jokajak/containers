@@ -1,16 +1,16 @@
-FROM debian:sid
+FROM alpine:3.18.4
 
-# TODO: add renovate for this
+# renovate: datasource=npm depName=@bitwarden/cli versioning=npm
 ARG BW_CLI_VERSION=2023.9.0
 
-RUN apt update && \
-  apt install -y wget unzip curl jq && \
-  wget https://github.com/bitwarden/clients/releases/download/cli-v${BW_CLI_VERSION}/bw-linux-${BW_CLI_VERSION}.zip && \
-  unzip bw-linux-${BW_CLI_VERSION}.zip && \
-  chmod +x bw && \
-  mv bw /usr/local/bin/bw && \
-  rm -rfv *.zip
+RUN apk add --no-cache npm wget unzip curl jo \
+  && npm i -g @bitwarden/cli@${BW_CLI_VERSION} \
+  && install --mode=0700 --owner=65532 -d /.config/bw/
 
 COPY entrypoint.sh /
 
 CMD ["/entrypoint.sh"]
+
+ENV BITWARDENCLI_APPDATA_DIR=/.config/bw/
+
+USER 65532:65532
