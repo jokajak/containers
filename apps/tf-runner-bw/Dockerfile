@@ -8,7 +8,8 @@ USER root
 # renovate: datasource=npm depName=@bitwarden/cli versioning=npm
 ARG BW_CLI_VERSION=2023.9.0
 
-RUN apk add --no-cache npm && npm i -g @bitwarden/cli@${BW_CLI_VERSION}
+RUN apk add --no-cache npm python3 make gcc g++ \
+  && npm i -g @bitwarden/cli@${BW_CLI_VERSION}
 
 COPY --from=terraform --chown=65532:65532 /bin/terraform /usr/local/bin/terraform
 

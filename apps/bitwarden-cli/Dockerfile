@@ -3,7 +3,7 @@ FROM alpine:3.18.4
 # renovate: datasource=npm depName=@bitwarden/cli versioning=npm
 ARG BW_CLI_VERSION=2023.9.0
 
-RUN apk add --no-cache npm wget unzip curl jo \
+RUN apk add --no-cache npm python3 make gcc g++ wget unzip curl jo \
   && npm i -g @bitwarden/cli@${BW_CLI_VERSION} \
   && install --mode=0700 --owner=65532 -d /.config/bw/
 
