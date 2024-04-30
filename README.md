@@ -66,6 +66,7 @@ Each Image will be built with a `rolling` tag, along with tags specific to it's 
 Container | Channel | Image | Latest Tags
 --- | --- | --- | ---
 [bitwarden-cli]() | stable | ghcr.io/jokajak/bitwarden-cli |
+[geyser-mc]() | stable | ghcr.io/jokajak/geyser-mc |
 [tf-runner-bw]() | stable | ghcr.io/jokajak/tf-runner-bw |
 
 
