@@ -7,11 +7,11 @@ on:
       appsToBuild:
         required: false
         type: string
-        default: ''
+        default: ""
       channelsToBuild:
         required: false
         type: string
-        default: ''
+        default: ""
       pushImages:
         required: false
         default: false
@@ -46,8 +46,8 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.9'
-          cache: 'pip' # caching pip dependencies
+          python-version: "3.9"
+          cache: "pip" # caching pip dependencies
 
       - name: Install Python Requirements
         run: |
@@ -78,7 +78,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        image: ["${{ fromJSON(needs.prepare.outputs.matrices).imagePlatforms }}"]
+        image:
+          ["${{ fromJSON(needs.prepare.outputs.matrices).imagePlatforms }}"]
     steps:
       - name: Log Matrix Input
         run: |
@@ -175,7 +176,7 @@ jobs:
         if: ${{ inputs.pushImages}}
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.image.name }}
+          name: ${{ matrix.image.name }}-${{ matrix.image.target_os }}-${{ matrix.image.target_arch }}
           path: /tmp/${{ matrix.image.name }}/*
           if-no-files-found: error
           retention-days: 1
