@@ -11,9 +11,10 @@ WORKDIR /var/lib/geyser
 RUN apt-get update \
   && apt-get install --yes --no-install-recommends \
   openjdk-17-jre-headless \
-  vim \
   curl \
+  ncat \
   unzip \
+  vim \
   && apt-get autoremove --yes --purge \
   && apt-get clean \
   && rm --recursive --force /var/lib/apt/lists/* /tmp/* /var/tmp/*
