@@ -11,6 +11,7 @@ from subprocess import check_output
 
 from os.path import isfile
 
+repo_owner = os.environ.get("REPO_OWNER", os.environ.get("GITHUB_REPOSITORY_OWNER"))
 
 TESTABLE_PLATFORMS = ["linux/amd64"]
 
@@ -57,7 +58,7 @@ def get_latest_version(subdir, channel_name):
 
 def get_published_version(image_name):
     r = requests.get(
-        f"https://api.github.com/users/jokajak/packages/container/{image_name}/versions",
+        f"https://api.github.com/users/{repo_owner}/packages/container/{image_name}/versions",
         headers={
             "Accept": "application/vnd.github.v3+json",
             "Authorization": "token " + os.environ["TOKEN"],
@@ -108,8 +109,8 @@ def get_image_metadata(subdir, meta, forRelease=False, force=False, channels=Non
         toBuild["version"] = version
 
         # Image Tags
-        toBuild["tags"] = [version]
-        if meta.get("semantic_versioning", False):
+        toBuild["tags"] = ["rolling", version]
+        if meta.get("semver", False):
             parts = version.split(".")[:-1]
             while len(parts) > 0:
                 toBuild["tags"].append(".".join(parts))
@@ -132,11 +133,7 @@ def get_image_metadata(subdir, meta, forRelease=False, force=False, channels=Non
             platformToBuild["target_arch"] = target_arch
             platformToBuild["version"] = version
             platformToBuild["channel"] = channel["name"]
-
-            if meta.get("base", False):
-                platformToBuild["label_type"] = "org.opencontainers.image.base"
-            else:
-                platformToBuild["label_type"] = "org.opencontainers.image"
+            platformToBuild["label_type"] = "org.opencontainers.image"
 
             if isfile(os.path.join(subdir, channel["name"], "Dockerfile")):
                 platformToBuild["dockerfile"] = os.path.join(
