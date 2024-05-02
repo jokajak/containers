@@ -198,7 +198,8 @@ jobs:
       - name: Download Digests
         uses: actions/download-artifact@v4
         with:
-          name: ${{ matrix.image.name }}
+          pattern: "${{ matrix.image.name }}-{linux,darwin}-{amd64,arm64}"
+          merge-multiple: true
           path: /tmp/${{ matrix.image.name }}
 
       - name: Ensure all platforms were built
