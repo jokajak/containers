@@ -8,7 +8,7 @@ concurrency:
 on:
   workflow_dispatch:
     inputs:
-      app:
+      apps:
         description: "Apps (ex: radarr,sonarr)"
         default: ""
         required: true
@@ -37,7 +37,7 @@ jobs:
     permissions:
       packages: write
     with:
-      appsToBuild: ${{ inputs.appsToBuild }}
+      appsToBuild: ${{ inputs.apps }}
       channelsToBuild: ${{ inputs.channelsToBuild }}
       force: true
       pushImages: ${{ fromJSON(inputs.push) }}
