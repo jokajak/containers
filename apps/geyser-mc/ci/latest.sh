@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-patch=1
+patch=2
 
 # Perform a HEAD request to get headers only
 url="https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/standalone"
