@@ -66,7 +66,7 @@ Each Image will be built with a `rolling` tag, along with tags specific to it's 
 Container | Channel | Image | Latest Tags
 --- | --- | --- | ---
 [bitwarden-cli]() | stable | ghcr.io/jokajak/bitwarden-cli |
-[cni-plugins]() | stable | ghcr.io/jokajak/cni-plugins |
+[cni-plugins](https://github.com/jokajak/containers/pkgs/container/cni-plugins) | stable | ghcr.io/jokajak/cni-plugins |![1.6.1](https://img.shields.io/badge/1.6.1-blue?style=flat-square) ![rolling](https://img.shields.io/badge/rolling-blue?style=flat-square)
 [geyser-mc](https://github.com/jokajak/containers/pkgs/container/geyser-mc) | stable | ghcr.io/jokajak/geyser-mc |![2.3.0-2](https://img.shields.io/badge/2.3.0--2-blue?style=flat-square) ![rolling](https://img.shields.io/badge/rolling-blue?style=flat-square)
 [tf-runner-bw]() | stable | ghcr.io/jokajak/tf-runner-bw |
 
