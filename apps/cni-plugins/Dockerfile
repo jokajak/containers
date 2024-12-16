@@ -1,7 +1,4 @@
-ARG VERSION=3.19.1
-
-FROM public.ecr.aws/docker/library/alpine:${VERSION}
-ARG VERSION
+FROM public.ecr.aws/docker/library/alpine:3.19.1
 
 ARG TARGETPLATFORM
 ARG BUILDPLATFORM
