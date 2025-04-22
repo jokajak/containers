@@ -1,4 +1,4 @@
-FROM alpine:3.19.1
+FROM alpine:3.21.3
 
 # renovate: datasource=npm depName=@bitwarden/cli versioning=npm
 ARG BW_CLI_VERSION=2023.9.0
