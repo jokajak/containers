@@ -78,7 +78,7 @@ jobs:
 
       - name: Run container-structure-test
         if: ${{ steps.test.outputs.tool == 'cst' }}
-        uses: docker://ghcr.io/googlecontainertools/container-structure-test:1.19.3
+        uses: docker://ghcr.io/googlecontainertools/container-structure-test:1.22.1
         with:
           args: test --image ${{ steps.build.outputs.imageid }} --config /github/workspace/apps/${{ inputs.app }}/tests.yaml
 
